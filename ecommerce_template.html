@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>epinpazar — Dijital Ürün & Hesap Mağazası</title>
+  <meta name="description" content="epinpazar - Oyun itemleri, hesaplar, e-pin ve dijital kodların güvenli pazarı"/>
+  <style>
+    :root{
+      --bg:#0b0d10;
+      --card:#0f1418;
+      --muted:#9aa3ac;
+      --accent:#00d084;
+      --accent-2:#00b3ff;
+      --danger:#ff6b6b;
+      --glass: rgba(255,255,255,0.04);
+      --radius:12px;
+      --max-width:1200px;
+      --shadow: 0 6px 18px rgba(2,6,23,0.7);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#060708 0%,var(--bg) 100%);font-family:Inter,Segoe UI,Roboto,Arial,sans-serif;color:#e6eef3}
+    a{color:inherit}
+    header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;max-width:var(--max-width);margin:20px auto}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:700}
+    .logo .mark{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;border-radius:8px;font-weight:800;color:#051018}
+    nav{display:flex;gap:14px;align-items:center}
+    nav a{padding:8px 12px;border-radius:8px;color:var(--muted);text-decoration:none;font-weight:600}
+    nav a:hover{background:var(--glass);color:#fff}
+
+    .actions{display:flex;gap:8px;align-items:center}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#051018;border:none;padding:10px 14px;border-radius:10px;font-weight:700;cursor:pointer}
+    .ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 10px;border-radius:10px;color:var(--muted);cursor:pointer}
+
+    .container{max-width:var(--max-width);margin:0 auto;padding:0 20px}
+
+    .hero{max-width:var(--max-width);margin:10px auto 28px;background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);border-radius:16px;padding:28px 22px;display:flex;gap:20px;align-items:center;box-shadow:var(--shadow)}
+    .hero .left{flex:1}
+    .hero h1{margin:0 0 8px;font-size:28px}
+    .hero p{margin:0;color:var(--muted)}
+    .hero .cta{margin-top:14px}
+
+    .searchbar{display:flex;gap:8px;margin-top:8px}
+    .searchbar input{flex:1;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+
+    .grid{display:grid;grid-template-columns:250px 1fr;gap:20px;align-items:start}
+
+    /* sidebar */
+    aside{background:transparent;padding:14px;border-radius:12px}
+    .category{background:var(--card);padding:12px;border-radius:12px}
+    .category h4{margin:0 0 10px;color:var(--muted);font-size:14px}
+    .cats{display:flex;flex-direction:column;gap:8px}
+    .cats button{background:transparent;border:none;text-align:left;padding:8px;border-radius:8px;color:var(--muted);cursor:pointer}
+    .cats button.active{background:var(--glass);color:#fff}
+
+    /* product listing */
+    main{min-height:60vh}
+    .filters{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+    .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+    .card{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:12px;border-radius:12px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 6px 16px rgba(1,3,6,0.6);display:flex;flex-direction:column;gap:10px}
+    .thumb{height:136px;border-radius:8px;overflow:hidden;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);display:flex;align-items:center;justify-content:center}
+    .thumb img{max-width:100%;height:100%;object-fit:cover}
+    .meta{display:flex;justify-content:space-between;align-items:center}
+    .title{font-weight:700}
+    .price{font-weight:800;color:var(--accent)}
+    .badge{padding:6px 8px;border-radius:8px;font-size:12px}
+    .badge.code{background:rgba(0,208,132,0.12);color:var(--accent)}
+    .badge.manual{background:rgba(0,179,255,0.07);color:var(--accent-2)}
+    .card button{margin-top:auto;padding:10px;border-radius:10px;border:none;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#051018;font-weight:700;cursor:pointer}
+
+    /* cart mini */
+    .cart{position:fixed;right:20px;bottom:20px;background:linear-gradient(180deg,#061318 0%,#07121a 100%);padding:12px;border-radius:12px;box-shadow:var(--shadow);width:320px}
+    .cart h4{margin:0 0 10px}
+    .cart .items{max-height:220px;overflow:auto;display:flex;flex-direction:column;gap:8px}
+    .cart .row{display:flex;justify-content:space-between}
+    .cart .checkout{margin-top:10px;display:flex;gap:8px}
+
+    footer{max-width:var(--max-width);margin:40px auto 24px;padding:18px;text-align:center;color:var(--muted)}
+
+    /* responsive */
+    @media(max-width:900px){.grid{grid-template-columns:1fr}.cart{right:12px;left:12px;width:auto}}
+  </style>
+</head>
+<body>
+  <header class="container">
+    <div class="logo">
+      <div class="mark">EP</div>
+      <div>
+        <div style="font-size:18px">epinpazar</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px">Dijital Ürünler • Hesaplar • E‑Pin</div>
+      </div>
+    </div>
+
+    <nav>
+      <a href="#">Ana Sayfa</a>
+      <a href="#">Kategoriler</a>
+      <a href="#">Kampanyalar</a>
+      <a href="#">Yardım</a>
+      <div class="actions">
+        <button class="ghost" onclick="openLogin()">Giriş Yap</button>
+        <button class="btn" onclick="openSell()">Satış Yap</button>
+      </div>
+    </nav>
+  </header>
+
+  <section class="hero container">
+    <div class="left">
+      <h1>epinpazar — Dijital ürünlerin güvenli adresi</h1>
+      <p>Oyun itemleri, hesaplar, e‑pin ve dijital kodları şimdi hızlı ve güvenli şekilde satın al.</p>
+      <div class="cta">
+        <div class="searchbar">
+          <input id="q" placeholder="Ürün ara: Valorant, Netflix, Steam..." />
+          <button class="btn" onclick="search()">Ara</button>
+        </div>
+      </div>
+    </div>
+    <div style="width:340px;text-align:center">
+      <img src="https://via.placeholder.com/300x180/0e1114/00d084?text=EPINPAZAR" style="width:100%;border-radius:12px"/>
+    </div>
+  </section>
+
+  <div class="container grid">
+    <aside>
+      <div class="category">
+        <h4>Kategoriler</h4>
+        <div class="cats" id="cats">
+          <button onclick="filter('all')" class="active">Tümü</button>
+          <button onclick="filter('game')">Oyun Itemleri</button>
+          <button onclick="filter('account')">Hesaplar</button>
+          <button onclick="filter('epin')">E‑Pin / Kod</button>
+          <button onclick="filter('dijital')">Dijital Servisler</button>
+        </div>
+      </div>
+
+      <div style="height:14px"></div>
+
+      <div class="category">
+        <h4>Filtreler</h4>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label style="color:var(--muted);font-size:13px"><input type="checkbox" id="autoOnly"/> Sadece Otomatik Kodlar</label>
+          <label style="color:var(--muted);font-size:13px"><input type="checkbox" id="manualOnly"/> Sadece Manuel Teslimatlar</label>
+        </div>
+      </div>
+    </aside>
+
+    <main>
+      <div class="filters">
+        <div style="color:var(--muted)">Toplam Ürün: <span id="count">0</span></div>
+        <div style="margin-left:auto;display:flex;gap:8px">
+          <select id="sort" onchange="renderProducts()">
+            <option value="pop">Çok Satanlar</option>
+            <option value="price-asc">Fiyat: Düşük → Yüksek</option>
+            <option value="price-desc">Fiyat: Yüksek → Düşük</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="products" id="products"></div>
+    </main>
+  </div>
+
+  <!-- CART -->
+  <div class="cart" id="cart">
+    <h4>Sepet</h4>
+    <div class="items" id="cartItems"></div>
+    <div class="row" style="margin-top:8px"><strong>Toplam:</strong><strong id="total">₺0,00</strong></div>
+    <div class="checkout">
+      <button class="ghost" onclick="clearCart()">Boşalt</button>
+      <button class="btn" onclick="checkout()">Satın Al</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 epinpazar • Güvenli dijital ürün pazarı • Destek: destek@epinpazar.test
+  </footer>
+
+  <script>
+    // örnek ürün verisi (bunu sunucu/DB ile değiştirirsin)
+    const PRODUCTS = [
+      {id:1,title:'Valorant 1000 VP',cat:'game',price:129.90,thumb:'https://via.placeholder.com/400x250?text=VP',type:'manual'},
+      {id:2,title:'Steam Cüzdan Kodu 50₺',cat:'epin',price:54.90,thumb:'https://via.placeholder.com/400x250?text=Steam+Code',type:'code'},
+      {id:3,title:'Netflix Profil (1 Aylık)',cat:'dijital',price:69.90,thumb:'https://via.placeholder.com/400x250?text=Netflix',type:'manual'},
+      {id:4,title:'LoL 2400 RP',cat:'game',price:219.90,thumb:'https://via.placeholder.com/400x250?text=RP',type:'manual'},
+      {id:5,title:'Google Play Kod 100₺',cat:'epin',price:109.90,thumb:'https://via.placeholder.com/400x250?text=Google+Play',type:'code'}
+    ];
+
+    // state
+    let state = {q:'',cat:'all',autoOnly:false,manualOnly:false,sort:'pop'};
+    let cart = JSON.parse(localStorage.getItem('ep_cart')||'[]');
+
+    // init
+    document.getElementById('count').innerText = PRODUCTS.length;
+    renderProducts();
+    renderCart();
+
+    function renderProducts(){
+      const container = document.getElementById('products');container.innerHTML='';
+      state.q = document.getElementById('q').value.toLowerCase();
+      state.autoOnly = document.getElementById('autoOnly').checked;
+      state.manualOnly = document.getElementById('manualOnly').checked;
+      state.sort = document.getElementById('sort').value;
+
+      let list = PRODUCTS.filter(p=>{
+        if(state.cat!=='all' && p.cat!==state.cat) return false;
+        if(state.q && !p.title.toLowerCase().includes(state.q)) return false;
+        if(state.autoOnly && p.type!=='code') return false;
+        if(state.manualOnly && p.type!=='manual') return false;
+        return true;
+      });
+
+      if(state.sort==='price-asc') list.sort((a,b)=>a.price-b.price);
+      if(state.sort==='price-desc') list.sort((a,b)=>b.price-a.price);
+
+      document.getElementById('count').innerText = list.length;
+
+      list.forEach(p=>{
+        const el = document.createElement('div');el.className='card';
+        el.innerHTML = `
+          <div class="thumb"><img src="${p.thumb}" alt="${p.title}"/></div>
+          <div class="meta"><div class="title">${p.title}</div><div class="price">₺${p.price.toFixed(2)}</div></div>
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="badge ${p.type==='code'?'code':'manual'}">${p.type==='code'?'Otomatik Kod':'Manuel Teslim'}</div>
+            <div style="flex:1"></div>
+            <button onclick="addToCart(${p.id})">Sepete Ekle</button>
+          </div>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    function filter(cat){
+      state.cat=cat;document.querySelectorAll('#cats button').forEach(b=>b.classList.remove('active'));
+      document.querySelector(`#cats button[onclick*="${cat}"]`).classList.add('active');
+      renderProducts();
+    }
+
+    function search(){renderProducts();window.scrollTo({top:320,behavior:'smooth'})}
+
+    function addToCart(id){
+      const prod = PRODUCTS.find(p=>p.id===id);if(!prod)return;
+      const item = {...prod,qty:1};
+      const exists = cart.find(c=>c.id===id);
+      if(exists) exists.qty++ ; else cart.push(item);
+      localStorage.setItem('ep_cart',JSON.stringify(cart));
+      renderCart();
+      alert(prod.title + ' sepete eklendi');
+    }
+
+    function renderCart(){
+      const wrap = document.getElementById('cartItems');wrap.innerHTML='';
+      let total=0;
+      cart.forEach(it=>{
+        const row = document.createElement('div');row.className='row';
+        row.innerHTML = `<div>${it.title} x${it.qty}</div><div>₺${(it.price*it.qty).toFixed(2)}</div>`;
+        wrap.appendChild(row);
+        total += it.price*it.qty;
+      });
+      document.getElementById('total').innerText = '₺'+total.toFixed(2);
+    }
+
+    function clearCart(){cart=[];localStorage.removeItem('ep_cart');renderCart();}
+
+    function checkout(){
+      if(cart.length===0){alert('Sepetiniz boş');return}
+      // demo amaçlı: gerçek satın alma burada ödeme entegrasyonuna gider
+      const summary = cart.map(i=>i.title+' x'+i.qty).join('
+');
+      alert('Demo ödeme akışı:
+'+summary+'
+
+Bu demo sürüm; ödeme entegrasyonu eklemek için hazır.' );
+    }
+
+    function openLogin(){alert('Giriş ekranı demo. WordPress/Backend entegrasyonu ile gerçekleşir.');}
+    function openSell(){alert('Satış yapmak için satıcı paneli eklenecek. Backend gerekli.');}
+  </script>
+</body>
+</html>
