@@ -1,0 +1,15 @@
+
+<!doctype html>
+<html lang="tr">
+<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>epinpazar - Marketplace</title>
+<link rel="stylesheet" href="/public/style.css"/></head>
+<body>
+  <header class="header"><div class="brand">epinpazar</div><nav><a href="/">Ana Sayfa</a><a href="/public/login.html">Giriş</a><a href="/public/register.html">Kayıt</a><a href="/public/add.html">İlan Ekle</a><a href="/public/admin.html">Admin</a></nav></header>
+  <main class="container"><h1>İlanlar</h1><div id="listings" class="grid"></div></main>
+  <footer>© 2025 epinpazar</footer>
+<script>
+const API = location.origin;
+async function load(){ try{ const res = await fetch(API + '/api/listings'); const data = await res.json(); const wrap = document.getElementById('listings'); if(!data.length) wrap.innerText='Henüz ilan yok'; data.forEach(l=>{ const el = document.createElement('div'); el.className='card'; el.innerHTML = `<img src="${l.imageUrl||'https://via.placeholder.com/400x240?text=Ürün'}" alt=""><h3>${l.title}</h3><div>${l.description}</div><div class="price">₺${Number(l.price).toFixed(2)}</div>`; wrap.appendChild(el); }); }catch(e){ console.error(e); } }
+load();
+</script>
+</body></html>
