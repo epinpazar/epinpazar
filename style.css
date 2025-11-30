@@ -1,8 +1,0 @@
-body{margin:0;background:#0b0d10;color:#fff;font-family:Arial}
-.top{padding:20px;display:flex;justify-content:space-between;background:#111}
-.top a{color:#aaa;margin-left:10px;text-decoration:none}
-.hero{text-align:center;padding:40px;background:#131820}
-.search{padding:10px;width:260px;margin-top:20px;border-radius:8px;border:none}
-.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;padding:30px}
-.card{background:#111;padding:15px;border-radius:10px}
-.btn{background:#00d084;color:#000;padding:10px;border-radius:8px;border:none;width:100%;margin-top:10px;cursor:pointer}
